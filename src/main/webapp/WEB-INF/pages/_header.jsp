@@ -20,6 +20,7 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="${pageContext.request.contextPath}/">Home</a></li>
       <li><a href="${pageContext.request.contextPath}/productList">Product List</a></li>
+      <li><a href="${pageContext.request.contextPath}/categoryList">Category List</a></li>
       <li><a href="${pageContext.request.contextPath}/shoppingCart">My Cart</a></li>
       <li><security:authorize  access="hasAnyRole('ROLE_MANAGER','ROLE_EMPLOYEE')">
      <a href="${pageContext.request.contextPath}/orderList">
@@ -27,12 +28,23 @@
      </a>
 
    </security:authorize></li>
+   <li><security:authorize  access="hasAnyRole('ROLE_MANAGER','ROLE_EMPLOYEE')">
+     <a href="${pageContext.request.contextPath}/feedbacklist">
+         Feedbacks
+     </a>
+
+   </security:authorize></li>
    <li><security:authorize  access="hasRole('ROLE_MANAGER')">
          <a href="${pageContext.request.contextPath}/product">
                         Create Product
          </a>
-     
    </security:authorize></li>
+   <li><security:authorize  access="hasRole('ROLE_MANAGER')">
+         <a href="${pageContext.request.contextPath}/category">
+                        Create Category
+         </a>
+   </security:authorize></li>
+
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -41,8 +53,10 @@
  
         </c:if>
         <c:if test="${pageContext.request.userPrincipal.name == null}">
+        	
             <a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
         </c:if></li>
+       
     </ul>
   </div>
 </nav>

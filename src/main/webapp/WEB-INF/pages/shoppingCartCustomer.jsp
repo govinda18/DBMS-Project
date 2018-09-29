@@ -30,13 +30,13 @@
            </tr>
            <tr>
                <td>Email *</td>
-               <td><form:input path="email" required="true"/></td>
+               <td><form:input path="email" type="email" required="true"/></td>
                <td><form:errors path="email" class="error-message" /></td>
            </tr>
  
            <tr>
                <td>Phone *</td>
-               <td><form:input path="phone" required="true"/></td>
+               <td><form:input path="phone" required="true" pattern="[789][0-9]{9}"/></td>
                <td><form:errors path="phone" class="error-message" /></td>
            </tr>
  
