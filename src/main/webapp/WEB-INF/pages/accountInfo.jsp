@@ -9,7 +9,39 @@
 <title>Account Info</title>
  
 <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"></link>
- 
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
 </head>
 <body>
  
@@ -17,23 +49,20 @@
    <jsp:include page="_header.jsp" />
    <jsp:include page="_menu.jsp" />
  
-   <div class="page-title">Account Info</div>
- 
-   <div class="account-container">
- 
- 
-       <ul>
-           <li>User Name: ${pageContext.request.userPrincipal.name}</li>
-           <li>Role:
-               <ul>
-                   <c:forEach items="${userDetails.authorities}" var="auth">
+
+
+<h2 style="text-align:center">User Profile</h2>
+
+<div class="card">
+  <h1>${pageContext.request.userPrincipal.name}</h1>
+
+  <p><c:forEach items="${userDetails.authorities}" var="auth">
                        <li>${auth.authority }</li>
-                   </c:forEach>
-               </ul>
-           </li>
-       </ul>
-   </div>
- 
+                   </c:forEach></p>
+	
+</div> 
+
+
  
    <jsp:include page="_footer.jsp" />
  

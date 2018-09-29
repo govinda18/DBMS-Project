@@ -46,7 +46,8 @@
                </td>
                <td><a href="${pageContext.request.contextPath}/order?orderId=${orderInfo.id}">
                   View</a></td>
-               <td>${orderInfo.status}  &nbsp; <a href="${pageContext.request.contextPath}/changestatus?orderId=${orderInfo.id}"> Change </a></td>
+               <td><a href="${pageContext.request.contextPath}/deleteorder?orderId=${orderInfo.id}">
+                  Delete</a> </td>
            </tr>
        </c:forEach>
    </table>

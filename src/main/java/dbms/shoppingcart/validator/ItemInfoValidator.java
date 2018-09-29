@@ -34,11 +34,11 @@ public class ItemInfoValidator implements Validator {
         String code = itemInfo.getCode();
         if (code != null && code.length() > 0) {
             if (code.matches("\\s+")) {
-                errors.rejectValue("code", "Pattern.productForm.code");
+                errors.rejectValue("code", "Pattern.itemForm.code");
             } else if(itemInfo.isNewItem()) {
                 Item item = itemDAO.findItem(code);
                 if (item != null) {
-                    errors.rejectValue("code", "Product Code already exists");
+                    errors.reject("code","Duplicate Code");
                 }
             }
         }

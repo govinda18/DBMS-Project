@@ -87,7 +87,8 @@ public class ItemDAOImpl implements ItemDAO {
         item.setName(itemInfo.getName());
         item.setPrice(itemInfo.getPrice());
         if (isNew) {
-            this.sessionFactory.getCurrentSession().persist(item);
+
+        	this.sessionFactory.getCurrentSession().persist(item);
         }
         this.sessionFactory.getCurrentSession().flush();
     }

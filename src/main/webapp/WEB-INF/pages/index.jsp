@@ -7,17 +7,29 @@
 <title>Narmada Sanitations</title>
  
 <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"></link>
- 
+<style>
+body {
+   background-image: url("http://www.technomix.com/uploads/home_image/Senso_AmbienteDisco_800x533.jpg");
+  height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:white;
+}
+</style>
 </head>
 <body>
  
  
    <jsp:include page="_header.jsp" />
    <jsp:include page="_menu.jsp" />
- 
-   <div class="page-title">Narmada Sanitations</div>
-  
-   <div class="demo-container">
+ 	
+ 	<center><h1>Welcome to Narmada Sanitations!!!</h1></center>
+ 	<center><h2>About us</h2></center>
+  	<h4 style="color:white">We are a retail and whole sale sanitatory material provider. Do visit us at 1694, Sudama Nagar, Indore.</h4>
+   <div style="color:white">
    <h3>Functionalities</h3>
   
    <ul>

@@ -26,7 +26,6 @@ public class Order implements Serializable {
     private String customerEmail;
     private String customerPhone;
     
-    private String status="Pending";
  
     @Id
     @Column(name = "OrderID", length = 50)
@@ -101,14 +100,7 @@ public class Order implements Serializable {
         this.customerPhone = customerPhone;
     }
     
-    @Column(name="Status", length=50, nullable=false)
-	public String getStatus() {
-		return status;
-	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
     
     
     

@@ -5,12 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import dbms.shoppingcart.dao.OrderDAO;
+import dbms.shoppingcart.entity.*;
 import dbms.shoppingcart.dao.ItemDAO;
 import dbms.shoppingcart.model.OrderDetailInfo;
 import dbms.shoppingcart.model.OrderInfo;
 import dbms.shoppingcart.model.ItemInfo;
 import dbms.shoppingcart.model.PaginationResult;
 import dbms.shoppingcart.validator.ItemInfoValidator;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +50,9 @@ public class AdminController {
  
     @Autowired
     private ItemInfoValidator itemInfoValidator;
+    
+    @Autowired
+    private SessionFactory sessionFactory;
  
     // Configurated In ApplicationContextConfig.
  
@@ -130,6 +138,7 @@ public class AdminController {
         }
         try {
             itemDAO.save(itemInfo);
+         
         } catch (Exception e) {
             // Need: Propagation.NEVER?
             String message = e.getMessage();
@@ -157,24 +166,25 @@ public class AdminController {
  
         return "order";
     }
-    
-    @RequestMapping(value = { "/changestatus" }, method = RequestMethod.GET)
-    public String changeStatus(Model model, @RequestParam("orderId") String orderId) {
+  
+    @RequestMapping(value = { "/deleteorder" }, method = RequestMethod.GET)
+    public String orderDelete(Model model, @RequestParam("orderId") String orderId) {
         OrderInfo orderInfo = null;
         if (orderId != null) {
-            orderInfo = this.orderDAO.getOrderInfo(orderId);
+        	try {	
+        	String sql = "delete from " +  Order.class.getName() +  " where OrderID=" + String.valueOf(orderId);
+        	Session session = this.sessionFactory.getCurrentSession();
+        	Query query = session.createQuery(sql);
+        	int result = query.executeUpdate();
+        	System.out.println(result);
+            orderInfo = this.orderDAO.getOrderInfo(orderId);}
+        	catch(Exception e)
+        	{
+        		return "redirect:/orderList";
+        	}
         }
-        if (orderInfo == null) {
             return "redirect:/orderList";
-        }
-        List<OrderDetailInfo> details = this.orderDAO.listOrderDetailInfos(orderId);
-        orderInfo.setDetails(details);
- 
-        model.addAttribute("orderInfo", orderInfo);
- 
-        return "changestatus";
     }
     
-
     
 }

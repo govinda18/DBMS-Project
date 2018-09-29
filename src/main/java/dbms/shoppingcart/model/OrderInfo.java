@@ -14,8 +14,6 @@ public class OrderInfo {
     private String customerAddress;
     private String customerEmail;
     private String customerPhone;
-    
-    private String status="Pending";
  
     private List<OrderDetailInfo> details;
  
@@ -109,13 +107,7 @@ public class OrderInfo {
         this.details = details;
     }
 
-	public String getStatus() {
-		return status;
-	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
     
     
  

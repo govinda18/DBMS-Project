@@ -28,7 +28,6 @@
                <td><form:input path="name" required="true"/></td>
                <td><form:errors path="name" class="error-message" /></td>
            </tr>
- 
            <tr>
                <td>Email *</td>
                <td><form:input path="email" required="true"/></td>
