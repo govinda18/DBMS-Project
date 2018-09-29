@@ -121,5 +121,16 @@ public class ApplicationContextConfig {
     @Bean(name = "orderDAO")
     public OrderDAO getOrderDAO() {
         return new OrderDAOImpl();
-    }      
+    }  
+    
+    @Bean(name = "feedbackDAO")
+    public FeedbackDAO getFeedbackDAO() {
+        return new FeedbackDAOImpl();
+    }  
+
+    @Bean(name = "categoryDAO")
+    public CategoryDAO getCategoryDAO() {
+        return new CategoryDAOImpl();
+    }
+
 }

@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
        // The pages requires login as EMPLOYEE or MANAGER.
        // If no login, it will redirect to /login page.
-       http.authorizeRequests().antMatchers("/orderList","/order", "/accountInfo")//
+       http.authorizeRequests().antMatchers("/orderList","/order", "/accountInfo","/feedbacklist","/category")//
                .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
  
        // For MANAGER only.

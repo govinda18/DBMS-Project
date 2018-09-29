@@ -7,11 +7,15 @@ import javax.servlet.http.HttpServletRequest;
  
 import dbms.shoppingcart.dao.OrderDAO;
 import dbms.shoppingcart.dao.ItemDAO;
-import dbms.shoppingcart.entity.Item;
+import dbms.shoppingcart.dao.FeedbackDAO;
+import dbms.shoppingcart.dao.CategoryDAO;
+import dbms.shoppingcart.entity.*;
 import dbms.shoppingcart.model.CartInfo;
 import dbms.shoppingcart.model.CustomerInfo;
+import dbms.shoppingcart.model.FeedbackInfo;
 import dbms.shoppingcart.model.ItemInfo;
 import dbms.shoppingcart.model.PaginationResult;
+import dbms.shoppingcart.model.CategoryInfo;
 import dbms.shoppingcart.util.Utils;
 import dbms.shoppingcart.validator.CustomerInfoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +47,12 @@ public class MainController {
     @Autowired
     private ItemDAO itemDAO;
  
+    @Autowired
+    private FeedbackDAO feedbackDAO;
+    
+    @Autowired
+    private CategoryDAO categoryDAO;
+    
     @Autowired
     private CustomerInfoValidator customerInfoValidator;
  
@@ -96,7 +106,21 @@ public class MainController {
         model.addAttribute("paginationProducts", result);
         return "productList";
     }
+
+    @RequestMapping({ "/categoryList" })
+    public String listCategoryHandler(Model model, //
+            @RequestParam(value = "name", defaultValue = "") String likeName,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+        final int maxResult = 10;
+        final int maxNavigationPage = 10;
  
+        PaginationResult<CategoryInfo> result =categoryDAO.queryCategorys(page, //
+                maxResult, maxNavigationPage, likeName);
+ 
+        model.addAttribute("paginationProducts", result);
+        return "categoryList";
+    }    
+    
     @RequestMapping({ "/buyProduct" })
     public String listProductHandler(HttpServletRequest request, Model model, //
             @RequestParam(value = "code", defaultValue = "") String code) {
@@ -266,6 +290,49 @@ public class MainController {
         }
  
         return "shoppingCartFinalize";
+    }
+    
+    // GET: Show Feedback.
+    @RequestMapping(value = { "/feedback" }, method = RequestMethod.GET)
+    public String feedback(Model model, @RequestParam(value = "orderid", defaultValue = "") String orderid) {
+        FeedbackInfo feedbackInfo = null;
+        
+        if (orderid != null ) {
+            feedbackInfo = feedbackDAO.findFeedbackInfo(orderid);
+        }
+        if (feedbackInfo == null) {
+            feedbackInfo = new FeedbackInfo();
+            feedbackInfo.setNewFeedback(true);
+            feedbackInfo.setOrderid(orderid);
+        }
+        model.addAttribute("feedbackForm", feedbackInfo);
+        return "feedback";
+    }
+ 
+    // POST: Save product
+    @RequestMapping(value = { "/feedback" }, method = RequestMethod.POST)
+    // Avoid UnexpectedRollbackException (See more explanations)
+    @Transactional(propagation = Propagation.NEVER)
+    public String productSave(Model model, //
+            @ModelAttribute("feedbackForm") @Validated FeedbackInfo feedbackInfo, //
+            BindingResult result, //
+            final RedirectAttributes redirectAttributes) {
+ 
+        if (result.hasErrors()) {
+            return "feedback";
+        }
+        try {
+            feedbackDAO.save(feedbackInfo);
+         
+        } catch (Exception e) {
+            // Need: Propagation.NEVER?
+            String message = e.getMessage();
+            model.addAttribute("message", message);
+            // Show product form.
+            return "feedback";
+ 
+        }
+        return "redirect:/productList";
     }
  
      

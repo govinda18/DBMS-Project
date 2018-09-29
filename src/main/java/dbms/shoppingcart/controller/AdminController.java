@@ -7,9 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import dbms.shoppingcart.dao.OrderDAO;
 import dbms.shoppingcart.entity.*;
 import dbms.shoppingcart.dao.ItemDAO;
+import dbms.shoppingcart.dao.CategoryDAO;
+import dbms.shoppingcart.dao.FeedbackDAO;
 import dbms.shoppingcart.model.OrderDetailInfo;
 import dbms.shoppingcart.model.OrderInfo;
 import dbms.shoppingcart.model.ItemInfo;
+import dbms.shoppingcart.model.CategoryInfo;
+import dbms.shoppingcart.model.FeedbackInfo;
 import dbms.shoppingcart.model.PaginationResult;
 import dbms.shoppingcart.validator.ItemInfoValidator;
 
@@ -47,6 +51,13 @@ public class AdminController {
  
     @Autowired
     private ItemDAO itemDAO;
+    
+    @Autowired
+    private CategoryDAO categoryDAO;
+    
+    
+    @Autowired
+    private FeedbackDAO feedbackDAO;
  
     @Autowired
     private ItemInfoValidator itemInfoValidator;
@@ -148,6 +159,63 @@ public class AdminController {
  
         }
         return "redirect:/productList";
+    }
+
+    // GET: Show category.
+    @RequestMapping(value = { "/category" }, method = RequestMethod.GET)
+    public String category(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
+        CategoryInfo categoryInfo = null;
+ 
+        if (code != null && code.length() > 0) {
+            categoryInfo = categoryDAO.findCategoryInfo(code);
+        }
+        if (categoryInfo == null) {
+            categoryInfo = new CategoryInfo();
+            categoryInfo.setNewCategory(true);
+        }
+        model.addAttribute("categoryForm", categoryInfo);
+        return "category";
+    }
+ 
+    // POST: Save product
+    @RequestMapping(value = { "/category" }, method = RequestMethod.POST)
+    // Avoid UnexpectedRollbackException (See more explanations)
+    @Transactional(propagation = Propagation.NEVER)
+    public String categorySave(Model model, //
+            @ModelAttribute("categoryForm") @Validated CategoryInfo categoryInfo, //
+            BindingResult result, //
+            final RedirectAttributes redirectAttributes) {
+ 
+        if (result.hasErrors()) {
+            return "product";
+        }
+        try {
+            categoryDAO.save(categoryInfo);
+         
+        } catch (Exception e) {
+            // Need: Propagation.NEVER?
+            String message = e.getMessage();
+            model.addAttribute("message", message);
+            // Show product form.
+            return "category";
+ 
+        }
+        return "redirect:/categoryList";
+    }
+
+    
+    @RequestMapping({ "/feedbacklist" })
+    public String listProductHandler(Model model, //
+            @RequestParam(value = "name", defaultValue = "") String likeName,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+        final int maxResult = 10;
+        final int maxNavigationPage = 10;
+ 
+        PaginationResult<FeedbackInfo> result =feedbackDAO.queryFeedbacks(page, //
+                maxResult, maxNavigationPage, likeName);
+ 
+        model.addAttribute("paginationProducts", result);
+        return "feedbackList";
     }
  
     @RequestMapping(value = { "/order" }, method = RequestMethod.GET)
