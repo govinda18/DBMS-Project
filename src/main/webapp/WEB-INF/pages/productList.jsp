@@ -174,6 +174,12 @@ table td {
                      href="${pageContext.request.contextPath}/product?code=${prodInfo.code}">
                        Edit Product</a></li>
                </security:authorize>
+               
+               <security:authorize  access="hasRole('ROLE_MANAGER')">
+                 <li><a style="color:red;"
+                     href="${pageContext.request.contextPath}/deleteproduct?code=${prodInfo.code}">
+                       Delete Product</a></li>
+               </security:authorize>
            </ul>
        </div>
  

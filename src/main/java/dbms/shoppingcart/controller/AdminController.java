@@ -74,7 +74,7 @@ public class AdminController {
             return;
         }
         System.out.println("Target=" + target);
- 
+
         if (target.getClass() == ItemInfo.class) {
             dataBinder.setValidator(itemInfoValidator);
             // For upload Image.
@@ -267,6 +267,43 @@ public class AdminController {
         }
             return "redirect:/orderList";
     }
-    
-    
+
+    @RequestMapping(value = { "/deleteproduct" }, method = RequestMethod.GET)
+    public String productDelete(Model model, @RequestParam("code") String code) {
+        ItemInfo itemInfo = null;
+        if (code != null) {
+        	try {	
+        	String sql = "delete from " +  Item.class.getName() +  " where Code='" + String.valueOf(code) +"'";
+        	System.out.println(sql);
+        	Session session = this.sessionFactory.getCurrentSession();
+        	Query query = session.createQuery(sql);
+        	int result = query.executeUpdate();
+        	System.out.println(result);
+        	}
+        	catch(Exception e)
+        	{
+        		return "redirect:/productList";
+        	}
+        }
+            return "redirect:/productList";
+    }    
+
+    @RequestMapping(value = { "/deletecategory" }, method = RequestMethod.GET)
+    public String categoryDelete(Model model, @RequestParam("code") String code) {
+        if (code != null) {
+        	try {	
+        	String sql = "delete from " +  Category.class.getName() +  " where Code='" + String.valueOf(code) +"'";
+        	System.out.println(sql);
+        	Session session = this.sessionFactory.getCurrentSession();
+        	Query query = session.createQuery(sql);
+        	int result = query.executeUpdate();
+        	System.out.println(result);
+        	}
+        	catch(Exception e)
+        	{
+        		return "redirect:/categoryList";
+        	}
+        }
+            return "redirect:/categoryList";
+    }    
 }

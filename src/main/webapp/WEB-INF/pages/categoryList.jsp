@@ -173,6 +173,12 @@ table td {
                      href="${pageContext.request.contextPath}/category?code=${prodInfo.code}">
                        Edit Category</a></li>
                </security:authorize>
+               <security:authorize  access="hasRole('ROLE_MANAGER')">
+                 <li><a style="color:red;"
+                     href="${pageContext.request.contextPath}/deletecategory?code=${prodInfo.code}">
+                       Delete Category</a></li>
+               </security:authorize>
+
            </ul>
        </div>
  

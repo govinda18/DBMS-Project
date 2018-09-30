@@ -48,6 +48,7 @@ public class MyDBAuthenticationService implements UserDetailsService {
         UserDetails userDetails = (UserDetails) new User(account.getUserName(), //
                 account.getPassword(), enabled, accountNonExpired, //
                 credentialsNonExpired, accountNonLocked, grantList);
+        
  
         return userDetails;
     }

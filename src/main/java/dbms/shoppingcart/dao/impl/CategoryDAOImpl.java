@@ -30,10 +30,14 @@ public class CategoryDAOImpl implements CategoryDAO {
  
     @Override
     public Category findCategory(String code) {
-        Session session = sessionFactory.getCurrentSession();
-        Criteria crit = session.createCriteria(Category.class);
-        crit.add(Restrictions.eq("code", code));
-        return (Category) crit.uniqueResult();
+    		String sql = "Select new " + CategoryInfo.class.getName() //
+                + "(p.code, p.name) " + " from "//
+                + Category.class.getName() + " p where Code = '" + code + "'";	
+            System.out.println(sql);
+    		Session session = this.sessionFactory.getCurrentSession();
+			Query query = session.createQuery(sql);
+			Category category = (Category) query.uniqueResult();
+			return category;
     }
     
     @Override
@@ -86,8 +90,18 @@ public class CategoryDAOImpl implements CategoryDAO {
         category.setCode(code);
         category.setName(categoryInfo.getName());
         if (isNew) {
-
-        	this.sessionFactory.getCurrentSession().persist(category);
+        	try {
+            	String sql = "insert into " +  Category.class.getName() +  "(Code,Name) values('" + category.getCode()//
+            					+ "','" + category.getName() +"')";
+            			;
+            	System.out.println(sql);
+            	Session session = this.sessionFactory.getCurrentSession();
+            	Query query = session.createQuery(sql);
+            	int result = query.executeUpdate();
+            	System.out.println(result);
+        	}
+        	catch (Exception e){
+        	this.sessionFactory.getCurrentSession().persist(category);}
         }
         this.sessionFactory.getCurrentSession().flush();
     }

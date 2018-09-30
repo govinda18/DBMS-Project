@@ -47,7 +47,7 @@ button:hover {
 }
 
 img.avatar {
-    width: 20%;
+    width: 15%;
     border-radius: 50%;
 }
 

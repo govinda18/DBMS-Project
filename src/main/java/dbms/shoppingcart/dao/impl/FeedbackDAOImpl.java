@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import dbms.shoppingcart.dao.FeedbackDAO;
+import dbms.shoppingcart.entity.Category;
 import dbms.shoppingcart.entity.Feedback;
 import dbms.shoppingcart.entity.Item;
 import dbms.shoppingcart.entity.Order;
@@ -87,8 +88,18 @@ public class FeedbackDAOImpl implements FeedbackDAO {
         feedback.setReview(feedbackInfo.getReview());
         feedback.setRating(feedbackInfo.getRating());
         if (isNew) {
-
-        	this.sessionFactory.getCurrentSession().persist(feedback);
+        	try {
+            	String sql = "insert into " +  Feedback.class.getName() +  "(OrderID,Review,Rating) values('"// 
+        	+ feedback.getOrderid()//
+				+ "','" + feedback.getReview() +"','" + feedback.getRating() +"')";
+				System.out.println(sql);
+				Session session = this.sessionFactory.getCurrentSession();
+				Query query = session.createQuery(sql);
+				int result = query.executeUpdate();
+				System.out.println(result);        		
+        	}
+        	catch (Exception e) {
+        	this.sessionFactory.getCurrentSession().persist(feedback);}
         }
         this.sessionFactory.getCurrentSession().flush();
     }
