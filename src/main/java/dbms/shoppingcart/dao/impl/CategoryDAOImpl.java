@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import dbms.shoppingcart.dao.CategoryDAO;
 import dbms.shoppingcart.entity.Category;
+import dbms.shoppingcart.entity.Item;
 import dbms.shoppingcart.entity.Order;
 import dbms.shoppingcart.model.CategoryInfo;
 import dbms.shoppingcart.model.OrderInfo;
@@ -30,7 +31,8 @@ public class CategoryDAOImpl implements CategoryDAO {
  
     @Override
     public Category findCategory(String code) {
-    		String sql = "Select new " + CategoryInfo.class.getName() //
+    	try {
+    		String sql = "Select " + CategoryInfo.class.getName() //
                 + "(p.code, p.name) " + " from "//
                 + Category.class.getName() + " p where Code = '" + code + "'";	
             System.out.println(sql);
@@ -38,6 +40,14 @@ public class CategoryDAOImpl implements CategoryDAO {
 			Query query = session.createQuery(sql);
 			Category category = (Category) query.uniqueResult();
 			return category;
+    	}
+    	catch (Exception e)
+    	{
+            Session session = sessionFactory.getCurrentSession();
+            Criteria crit = session.createCriteria(Category.class);
+            crit.add(Restrictions.eq("code", code));
+            return (Category) crit.uniqueResult();
+    	}
     }
     
     @Override
