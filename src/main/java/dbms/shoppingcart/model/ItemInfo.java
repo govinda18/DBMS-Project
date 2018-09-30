@@ -7,6 +7,7 @@ public class ItemInfo
     private String code;
     private String name;
     private double price;
+    private String category;
     
     private boolean newItem=false;
  
@@ -62,5 +63,15 @@ public class ItemInfo
 	public void setNewItem(boolean newItem) {
 		this.newItem = newItem;
 	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	
  
 }

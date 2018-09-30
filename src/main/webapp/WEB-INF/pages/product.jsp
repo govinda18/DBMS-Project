@@ -8,7 +8,143 @@
 <title>Product</title>
  
 <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"></link>
+<style>
+html {
+    background: white;
+}
+h3 {
+    margin: 0px;
+    padding: 0px;
+}
+
  
+.page-title  {
+    font-size:120%;
+    text-align: left;
+    margin:10px 0px;
+}
+.header-container {
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    background: #5f5f5f;
+    color: white;
+}
+.header-container .header-bar  {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+}
+.header-container .header-bar  a  {
+    color: white;
+    font-size: bold;
+}
+ 
+.footer-container {
+    text-align: center;
+    margin-top: 10px;
+    padding: 5px 0px 0px 0px;
+    border-top: 1px solid #ccc;
+}
+.menu-container {
+    text-align: right;
+    margin: 10px 5px;
+}
+.menu-container a {
+    margin: 5px 5px 5px 10px;
+    color: #004d99;
+    font-weight: bold;
+    text-decoration: none;
+}
+ 
+.site-name {
+    font-size:200%;
+    margin:10px 10px 10px 0px;
+    padding: 5px;
+}
+ 
+.container  {
+    margin: 5px 0px;
+}
+ 
+.demo-container, .login-container, .account-container {
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align:left;
+    margin:20px 0px;
+}
+ 
+.customer-info-container {
+    text-align: left;
+    border: 1px solid #ccc;
+    padding: 0px 5px;
+}
+.product-preview-container {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 250px;
+    margin: 10px ;
+    display: inline-block;
+    text-align:left;
+}
+ 
+.product-preview-container input {
+    width: 50px;
+}
+ 
+ 
+.product-image {
+    width: 120px;
+    height: 80px;
+}
+ 
+ul {
+    list-style-type: none;
+    padding-left: 5px;
+    margin:5px;
+}
+ 
+ 
+.navi-item {
+    margin: 5px 5px 5px 20px;
+}
+ 
+.button-update-sc {
+    color: red;
+    margin: 5px 5px 5px 20px;
+}
+ 
+.button-send-sc {
+    color: red;
+    margin: 5px 5px 5px 20px;
+}
+ 
+.error-message {
+    font-size: 90%;
+    color: red;
+    font-style: italic;
+}
+ 
+.price {
+    color: blue;
+    font-weight: bold;
+}
+ 
+.subtotal {
+    color: red;
+    font-weight: bold;
+}
+ 
+.total {
+    color: red;
+    font-weight: bold;
+    font-size: 120%;
+}
+ 
+table td {
+    padding: 5px;
+}
+</style>
 </head>
 <body>
  
@@ -33,7 +169,7 @@
                        ${productForm.code}
                   </c:if>
                   <c:if test="${empty productForm.code}">
-                       <form:input path="code" />
+                       <form:input path="code" required="true"/>
                        <form:hidden path="newItem" />
                   </c:if>
                </td>
@@ -42,16 +178,25 @@
  
            <tr>
                <td>Name *</td>
-               <td><form:input path="name" /></td>
+               <td><form:input path="name" required="true"/></td>
                <td><form:errors path="name" class="error-message" /></td>
            </tr>
  
            <tr>
                <td>Price *</td>
-               <td><form:input path="price" /></td>
+               <td><form:input path="price" required="true" type="number" step="0.01"/></td>
                <td><form:errors path="price" class="error-message" /></td>
            </tr>
  
+ 		   <tr>
+               <td>Category</td>
+               <td><form:select path="category">
+               <c:forEach items="${paginationProducts.list}" var="prodInfo">
+               <option value="${prodInfo.code}"> ${prodInfo.name} </option>
+               </c:forEach>
+               </form:select>
+               </td>
+           </tr>
  
            <tr>
                <td>&nbsp;</td>

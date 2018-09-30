@@ -131,6 +131,13 @@ public class AdminController {
             itemInfo = new ItemInfo();
             itemInfo.setNewItem(true);
         }
+        final int maxResult = 1000;
+        final int maxNavigationPage = 10;
+ 
+        PaginationResult<CategoryInfo> result =categoryDAO.queryCategorys(1, //
+                maxResult, maxNavigationPage, "");
+ 
+        model.addAttribute("paginationProducts", result);
         model.addAttribute("productForm", itemInfo);
         return "product";
     }
@@ -158,6 +165,13 @@ public class AdminController {
             return "product";
  
         }
+        final int maxResult = 1000;
+        final int maxNavigationPage = 10;
+ 
+        PaginationResult<CategoryInfo> result1 =categoryDAO.queryCategorys(1, //
+                maxResult, maxNavigationPage, "");
+ 
+        model.addAttribute("paginationProducts", result1);
         return "redirect:/productList";
     }
 

@@ -92,7 +92,7 @@ public class MainController {
     public String paymentsuccess() {
         return "PaymentCompleted";
     }
- 
+    
     @RequestMapping({ "/productList" })
     public String listProductHandler(Model model, //
             @RequestParam(value = "name", defaultValue = "") String likeName,
@@ -107,6 +107,19 @@ public class MainController {
         return "productList";
     }
 
+    @RequestMapping({ "/categoryproducts" })
+    public String listProductbycategoryHandler(Model model, //
+            @RequestParam(value = "code", defaultValue = "") String category,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+        final int maxResult = 10;
+        final int maxNavigationPage = 10;
+        PaginationResult<ItemInfo> result =itemDAO.queryItemsforcategory(category,page, //
+                maxResult, maxNavigationPage);
+ 
+        model.addAttribute("paginationProducts", result);
+        return "productList";
+    }    
+    
     @RequestMapping({ "/categoryList" })
     public String listCategoryHandler(Model model, //
             @RequestParam(value = "name", defaultValue = "") String likeName,

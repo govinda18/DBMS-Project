@@ -43,7 +43,7 @@ public class ItemDAOImpl implements ItemDAO {
                 + "(p.code, p.name, p.price) " + " from "//
                 + Item.class.getName() + " p ";
         if (likeName != null && likeName.length() > 0) {
-            sql += " Where lower(p.name) like :likeName ";
+            sql += " Where lower(p.category) like :likeName ";
         }
         //
         Session session = sessionFactory.getCurrentSession();
@@ -54,7 +54,25 @@ public class ItemDAOImpl implements ItemDAO {
         }
         return new PaginationResult<ItemInfo>(query, page, maxResult, maxNavigationPage);
     }
-    
+    @Override
+    public PaginationResult<ItemInfo> queryItemsforcategory(String category,int page, int maxResult, int maxNavigationPage) {
+        String sql = "Select new " + ItemInfo.class.getName() //
+                + "(p.code, p.name, p.price) " + " from "//
+                + Item.class.getName() + " p ";
+        if (category != null && category.length() > 0) {
+            sql += " where Category = ";
+            sql += "'category'";
+        }
+        sql="Select new " + ItemInfo.class.getName() //
+                + "(p.code, p.name, p.price) " + " from "//
+                + Item.class.getName() + " p where Category='abc'";
+        
+        Session session = sessionFactory.getCurrentSession();
+ 
+        Query query = session.createQuery(sql);
+        
+        return new PaginationResult<ItemInfo>(query, page, maxResult, maxNavigationPage);
+    }
     @Override
     public PaginationResult<ItemInfo> queryItems(int page, int maxResult, int maxNavigationPage) {
         return queryItems(page, maxResult, maxNavigationPage, null);
@@ -86,6 +104,9 @@ public class ItemDAOImpl implements ItemDAO {
         item.setCode(code);
         item.setName(itemInfo.getName());
         item.setPrice(itemInfo.getPrice());
+        if(itemInfo.getCategory()!=null) {
+        	item.setCategory(itemInfo.getCategory());
+        }
         if (isNew) {
 
         	this.sessionFactory.getCurrentSession().persist(item);

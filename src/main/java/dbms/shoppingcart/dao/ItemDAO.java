@@ -17,6 +17,8 @@ public interface ItemDAO
     
     public PaginationResult<ItemInfo> queryItems(int page,
             int maxResult, int maxNavigationPage  );
+    
+    public PaginationResult<ItemInfo> queryItemsforcategory(String category,int page,int maxResult,int maxNavigationPage);
 
     public PaginationResult<ItemInfo> queryItems(int page, int maxResult,
             int maxNavigationPage, String likeName);

@@ -16,6 +16,7 @@ public class Item implements Serializable {
     private String code;
     private String name;
     private double price;
+    private String category;
  
  
     public Item() {
@@ -52,6 +53,15 @@ public class Item implements Serializable {
 		this.price = price;
 	}
 
+	@Column(name="Category",nullable=true)
+	public String getCategory() {
+		return category;
+	}
 
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	
     
 }

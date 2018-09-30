@@ -153,7 +153,7 @@ table td {
    <jsp:include page="_header.jsp" />
    <jsp:include page="_menu.jsp" />
   
-   <fmt:setLocale value="en_US" scope="session"/>
+   <fmt:setLocale value="en_IN" scope="session"/>
  
    <div class="page-title">Category List</div>
  
@@ -165,8 +165,8 @@ table td {
            <security:authorize  access="hasRole('ROLE_MANAGER')">
                <li>Code: ${prodInfo.code}</li>
             </security:authorize>   
-               <li>Name: ${prodInfo.name}</li>
-               <li><a href="${pageContext.request.contextPath}/categoryproducts?code=${prodInfo.code}">Category Products</a></li>
+            <li>Name: ${prodInfo.name}</li>
+            <li><a href="${pageContext.request.contextPath}/productList?name=${prodInfo.code}"> Similar Products </a></li>
                <!-- For Manager edit Product -->
                <security:authorize  access="hasRole('ROLE_MANAGER')">
                  <li><a style="color:red;"

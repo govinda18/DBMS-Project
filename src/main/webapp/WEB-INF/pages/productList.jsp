@@ -153,7 +153,7 @@ table td {
    <jsp:include page="_header.jsp" />
    <jsp:include page="_menu.jsp" />
   
-   <fmt:setLocale value="en_US" scope="session"/>
+   <fmt:setLocale value="en_IN" scope="session"/>
  
    <div class="page-title">Product List</div>
  
